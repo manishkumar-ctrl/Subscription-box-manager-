@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subscriptly | Subscription Box Manager</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <a class="brand" href="#"><span class="brand-icon">S</span><span>Subscript<span class="accent">ly</span><small>BOX MANAGER</small></span></a>
+      <p class="nav-label">WORKSPACE</p>
+      <nav>
+        <a class="nav-link active" href="#dashboard">▦ <span>Dashboard</span></a>
+        <a class="nav-link" href="#customers">♙ <span>Customers</span></a>
+        <a class="nav-link" href="#billing">◷ <span>Billing cycles</span></a>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="tip"><b>✦ Small steps, big growth.</b><p>Keep customers happy and subscriptions healthy.</p></div>
+        <div class="admin"><div class="avatar">AD</div><div><b>Admin Demo</b><small>Workspace owner</small></div></div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar"><span>Workspace / <b id="crumb">Dashboard</b></span><div class="top-actions"><i></i> Demo workspace <button id="themeToggle" title="Toggle light mode">☼</button></div></header>
+      <section class="content" id="dashboard">
+        <div class="page-heading"><div><p class="eyebrow">OVERVIEW</p><h1>Subscription dashboard <span class="accent">✦</span></h1><p>Here’s what’s happening with your subscriptions today.</p></div><button class="primary" id="addCustomerBtn">＋ Add customer</button></div>
+
+        <div class="stats">
+          <article class="stat-card"><div class="stat-title">Total customers <span class="stat-icon purple">♙</span></div><strong id="totalCustomers">0</strong><small>All customer records</small></article>
+          <article class="stat-card"><div class="stat-title">Active subscriptions <span class="stat-icon green">↗</span></div><strong id="activeCustomers">0</strong><small id="activePercent">Currently active</small></article>
+          <article class="stat-card"><div class="stat-title">Monthly recurring revenue <span class="stat-icon blue">₹</span></div><strong id="mrr">₹0</strong><small>Monthly plan equivalent</small></article>
+          <article class="stat-card"><div class="stat-title">Cancelled customers <span class="stat-icon pink">↘</span></div><strong id="cancelledCustomers">0</strong><small>Review churn trends</small></article>
+        </div>
+
+        <div class="charts">
+          <article class="panel"><div class="panel-head"><div><h2>Customer churn</h2><p>Demo churn trend by month</p></div><span class="tag">LAST 6 MONTHS</span></div><div class="chart-box"><canvas id="churnChart"></canvas></div></article>
+          <article class="panel"><div class="panel-head"><div><h2>Subscription status</h2><p>Current customer breakdown</p></div></div><div class="donut-box"><canvas id="statusChart"></canvas><div class="donut-label"><b id="donutTotal">0</b><small>customers</small></div></div><div class="legend"><span>🟣 Active <b id="legendActive">0</b></span><span>🟡 Paused <b id="legendPaused">0</b></span><span>🔴 Cancelled <b id="legendCancelled">0</b></span></div></article>
+        </div>
+
+        <article class="panel table-panel" id="customers">
+          <div class="panel-head"><div><h2>Customer plans</h2><p>Manage customers and their subscription details.</p></div><button class="secondary" id="exportBtn">Export CSV ↓</button></div>
+          <div class="filters"><input id="searchInput" type="search" placeholder="Search customer name or email…"><select id="statusFilter"><option value="">All statuses</option><option>Active</option><option>Paused</option><option>Cancelled</option></select></div>
+          <div class="table-wrap"><table><thead><tr><th>CUSTOMER</th><th>PLAN</th><th>PRICE / CYCLE</th><th>NEXT BILLING</th><th>STATUS</th><th>ACTIONS</th></tr></thead><tbody id="customerRows"></tbody></table></div>
+          <p class="table-foot" id="tableCount"></p>
+        </article>
+
+        <article class="panel table-panel billing-panel" id="billing">
+          <div class="panel-head"><div><h2>Upcoming billing</h2><p>Next scheduled billing dates for active customers.</p></div></div>
+          <div class="table-wrap"><table><thead><tr><th>CUSTOMER</th><th>PLAN</th><th>AMOUNT</th><th>NEXT BILLING</th></tr></thead><tbody id="billingRows"></tbody></table></div>
+        </article>
+        <footer>Subscriptly · Subscription Box Manager <span>Frontend demo · HTML, CSS & JavaScript</span></footer>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="customerDialog">
+    <form id="customerForm">
+      <div class="dialog-head"><div><p class="eyebrow">CUSTOMER DIRECTORY</p><h2 id="dialogTitle">Add customer</h2></div><button type="button" id="closeDialog" class="close-btn">×</button></div>
+      <input type="hidden" id="customerId">
+      <label>Full name<input id="name" required maxlength="100" placeholder="e.g. Ananya Sharma"></label>
+      <label>Email address<input id="email" type="email" required placeholder="name@example.com"></label>
+      <div class="form-grid">
+        <label>Plan<select id="plan"><option>Monthly</option><option>Quarterly</option><option>Yearly</option></select></label>
+        <label>Price per cycle<input id="price" readonly></label>
+      </div>
+      <label>Billing start date<input id="billingStart" type="date" required></label>
+      <label>Status<select id="status"><option>Active</option><option>Paused</option><option>Cancelled</option></select></label>
+      <p id="formError" class="form-error"></p>
+      <div class="dialog-actions"><button type="button" class="secondary" id="cancelDialog">Cancel</button><button type="submit" class="primary">Save customer</button></div>
+    </form>
+  </dialog>
+  <div id="toast" role="status"></div>
+</body>
+</html>
